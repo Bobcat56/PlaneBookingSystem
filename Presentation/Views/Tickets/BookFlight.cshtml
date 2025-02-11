@@ -1,0 +1,91 @@
+﻿@model Presentation.Models.ViewModels.BookViewModel
+
+@{
+    ViewData["Title"] = "Flight Booking";
+}
+
+<h1>Booking</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="BookFlight" enctype="multipart/form-data">
+            <!-- Displaying the flight details -->
+            <div class="card">
+                <div class="card-header">
+                    Flight Details:
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>From:</strong> @Model.CountryFrom
+                        </div>
+                        <div class="col-md-6">
+                            <strong>To:</strong> @Model.CountryTo
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <strong>Departure:</strong> @Model.DepartureDate.ToString("MM/dd/yyyy HH:mm")
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Arrival:</strong> @Model.ArrivalDate.ToString("MM/dd/yyyy HH:mm")
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*
+            <!-- Hidden fields for the row and column -->
+            <input type="hidden" id="Row" name="Row"/>
+            <input type="hidden" id="Column" name="Column"/>
+
+            <!--Dynamic display of seats-->+
+            <@for (int row = 1; row <= ViewBag.MaxRows; row++)
+            {
+                <div class="row">
+                    @for (int column = 1; column <= ViewBag.MaxColumns; column++)
+                    {
+                        <div class="col text-center">
+                            <button type="button" class="seat-icon" data-row="@ow" data-column="@column">
+                                <img src="@Model.OutlineIcon" style="width:50px; height:50px;"/>
+                            </button>
+                        </div>
+                    }
+                </div>
+            }
+            *@
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Row" class="control-label"></label>
+                <input asp-for="Row" class="form-control" min="1" max="@ViewBag.MaxRows" />
+                <span asp-validation-for="Row" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Column" class="control-label"></label>
+                <input asp-for="Column" class="form-control" min="1" max="@ViewBag.MaxColumns" />
+                <span asp-validation-for="Column" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Passport" class="control-label">Upload Passport</label>
+                <input type="file" name="Passport" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PricePaid" class="control-label"></label>
+                €<input asp-for="PricePaid" class="form-control" readonly value="@Model.PricePaid.ToString("F2")" />
+                <!--Making it readonly so the user cannot alter the price-->
+                <span asp-validation-for="PricePaid" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="FlightIdFK"/>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Return to list", "ListFlights")
+</div>
+

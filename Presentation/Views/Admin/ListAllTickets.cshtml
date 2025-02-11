@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Presentation.Models.ViewModels.AdminListAllTicketsViewModel>
+
+@{
+    ViewData["Title"] = "ListAllTickets";
+}
+
+<h1>All tickets associated with flight</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Row)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Column)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Passport)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PricePaid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cancelled)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Row)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Column)
+            </td>
+            <td>
+               <img src="@item.Passport" style="width:100px; height:auto;"/>
+            </td>
+            <td>
+                €@Html.DisplayFor(modelItem => item.PricePaid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cancelled)
+            </td>
+        </tr>
+}
+    <td>
+        @Html.ActionLink("Back to Flights", "ListAllFlights");
+    </td>
+    </tbody>
+</table>

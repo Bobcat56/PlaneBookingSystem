@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Presentation.Models.ViewModels.ListFlightViewModel>
+
+@{
+    ViewData["Title"] = "ListFlights";
+}
+
+<h1>Flight Listing</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CountryFrom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountryTo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArrivalDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvailableSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RetailPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr class="@(item.Cancelled ? "cancelled" : "not-cancelled" )">
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryFrom)
+            </td>
+            <td>-
+                @Html.DisplayFor(modelItem => item.CountryTo)
+            </td>
+            <td>
+                @item.DepartureDate.ToString("MM/dd/yyyy HH:mm")
+            </td>
+            <td>
+                @item.ArrivalDate.ToString("MM/dd/yyyy HH:mm")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvailableSeats)
+            </td>
+            <td>
+                €@Html.DisplayFor(modelItem => item.RetailPrice)
+            </td>
+            <td>
+            @if (item.Cancelled)
+            {
+                <span>Cancelled!</span>
+            }
+            else if (item.CanBook)
+            {
+                @Html.ActionLink("Book", "BookFlight", new { id = item.Id })
+            }
+            else
+            {
+                <span>Fully Booked!</span>
+            }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
